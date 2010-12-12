@@ -1,0 +1,24 @@
+CC:=gcc
+CFLAGS:=-w -O3 -pedantic
+#CFLAGS:=-w -ggdb
+#CFLAGS:=-w -S
+
+all:	bfi.exe bfvm.exe brainchange.exe
+
+lib_easy/easy.o:	lib_easy/easy.c
+	$(CC) $(CFLAGS) -c -o lib_easy/easy.o lib_easy/easy.c
+
+bfi.exe:	bfi.c
+	$(CC) $(CFLAGS) -o bfi.exe bfi.c
+
+bfi_pointer.exe:	bfi_pointer.c
+	$(CC) $(CFLAGS) -o bfi_pointer.exe bfi_pointer.c
+
+bfvm.exe:	bfvm.c lib_easy/easy.o
+	$(CC) $(CFLAGS) -o bfvm.exe ./lib_easy/easy.o bfvm.c
+
+brainchange.exe:	brainchange.c lib_easy/easy.o
+	$(CC) $(CFLAGS) -o brainchange.exe lib_easy/easy.o brainchange.c
+
+clean:
+	del bfi.exe bfvm.exe brainchange.exe lib_easy/easy.o 
