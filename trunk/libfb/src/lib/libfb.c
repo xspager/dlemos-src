@@ -60,6 +60,9 @@ void lfb_fill_box(int x, int y, int w, int h, Color color)
 {
 	int cy,cx;
 
+	if(x+w > lfb.width) w = lfb.width - x;
+	if(y+h > lfb.height) h = lfb.height - y;
+
 	for(cy = y; cy < y + h; cy++)
 		lfb.memset(((unsigned int *)scr) + (lfb.width * cy + x), color, w);
 }
@@ -69,6 +72,8 @@ void lfb_draw_line(Point a, Point b, int w, Color color)
 	int x,y,xl,yl,i,xt,yt;
 	float d,B;
 	int dx, dy;
+
+//	printf("%d,%d -> %d,%d\n", a.x, a.y, b.x, b.y);
 
 	if(a.y == b.y)		// horizontal
 		if(b.x < a.x)
@@ -85,49 +90,53 @@ void lfb_draw_line(Point a, Point b, int w, Color color)
 		dy = (b.y > a.y) ? b.y - a.y : (a.y - b.y);
 		
 		if(dx && dy){
-			if(dx > dy){	// we will run trough
+			if(dx > dy){	// we will run trough x
+	//			printf("dx > dy\n");
 				d = (float) dy / (float) dx;
 				if(b.x > a.x){
+	//				printf("b.x > a.x\n");
 					x = a.x;
 					xl = b.x;
 					y = a.y;
 					i = ((b.y - y) < 0) ? -1 : 1;
 				}
 				else{
+	//				printf("b.x < a.x\n");
 					x = b.x;
 					xl = a.x;
 					y = b.y;
 					i = ((a.y - y) < 0) ? -1 : 1;
 				}
-				B = y - d * x;
+				B = rint(y - d * x);
 				while(x < xl){
 					x++;
-					y = rint(d * x - B) * i;
+					y = rint(d * x) + B * i;
 					lfb.setpixel(lfb.width * y + x, color);
 				}
-				//printf("dx > dy\n");
 			}
 			else{		// we will run though y
+	//			printf("dx < dy\n");
 				d = (float) dx / (float) dy;
 				if(b.y > a.y){
+	//				printf("b.y > a.y\n");
 					y = a.y;
 					yl = b.y;
 					x = a.x;
 					i = ((b.x - x) < 0) ? -1 : 1;
 				}
 				else{
+	//				printf("b.y < a.y\n");
 					y = b.y;
 					yl = a.x;
 					x = b.x;
 					i = ((a.x - x) < 0) ? -1 : 1;
 				}
-				B = x - d * y;
+				B = rint(x - d * y);
 				while(y < yl){
 					y++;
-					x = rint(d * y - B) * i;
+					x = rint(d * y) + B * i;
 					lfb.setpixel(lfb.width * y + x, color);
 				}
-				//printf("dx < dy\n");
 			}
 		}
 	}
@@ -143,9 +152,10 @@ void lfb_draw_polygon(Point *points, int w, Color c)
 {
 	Point *p = points;
 	
-	while(p->x > 0 && p->y > 0)
-		lfb.drawline(*p, *(++p),  w, c);
-	//lfb.drawline(*p, *points, w, c);
+	while(p->x > 0 && p->y > 0 && (p+1)->x > 0 && (p+1)->y > 0){
+		lfb.drawline(*p, *(p+1),  w, c);
+		p++;
+	}
 }
 
 void lfb_set_box(int x, int y, int w, int h)
@@ -190,8 +200,8 @@ void lfb_set_pixel8(int offset, Color c){
 }
 
 void lfb_set_pixel32(int offset, Color c){
-	if(offset < 0) offset = 0;
-	if(offset > lfb.width * lfb.height) offset = lfb.width * lfb.height;
+	if(offset < 0) return;
+	if(offset > lfb.width * lfb.height) return;
 	*(((unsigned int *) scr) + offset) = c;
 }
 

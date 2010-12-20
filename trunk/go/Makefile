@@ -1,4 +1,4 @@
-ARCH=8
+ARCH=6
 
 %: %.go
 	$(ARCH)g $*.go && $(ARCH)l -o $* $*.$(ARCH)
