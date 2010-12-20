@@ -65,6 +65,7 @@ struct{
 	Image* (*loadPNG)(int);
 	int (*drawimage)(Image *, Point);
 	void (*setpixel)(int offset, Color);
+	void (*refresh)();
 } lfb;
 
 extern byte *src;
