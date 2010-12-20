@@ -52,7 +52,8 @@ void lfb_init()
 	
 	//printf("Screen size %dx%d\n", lfb.width, lfb.height);
 
-	scr = (unsigned char *) mmap(0, lfb.width * lfb.height * (lfb.bpp/8), PROT_READ | PROT_WRITE, MAP_SHARED, fb, 0);
+	scr = (unsigned char *) mmap(0, fb_fix_info.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, fb, 0);
+	scr+= (fb_var_info.xoffset + fb_var_info.yoffset * fb_var_info.xres_virtual) * (fb_var_info.bits_per_pixel >> 3);
 }
 
 void lfb_fill_scr(Color c)
