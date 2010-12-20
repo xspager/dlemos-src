@@ -13,25 +13,29 @@ void lfb_draw_line(Point, Point, int, Color);
 void lfb_exit_error(char *);
 void lfb_fill_box(int x, int y, int w, int h, Color);
 void lfb_draw_polygon(Point *, int, Color);
+void lfb_refresh();
+
+struct fb_var_screeninfo fb_var_info;
+struct fb_fix_screeninfo fb_fix_info;
 
 void lfb_init()
-{
-	struct fb_var_screeninfo fbinfo;
-	
+{	
 	fb = open("/dev/fb0", O_RDWR);
 	if(!fb) lfb_exit_error("Can`t open /dev/fb0\n");
 	
-	ioctl(fb, FBIOGET_VSCREENINFO, &fbinfo);
+	ioctl(fb, FBIOGET_VSCREENINFO, &fb_var_info);
+	ioctl(fb, FBIOGET_FSCREENINFO, &fb_fix_info);
 	
 	// set some constants
-	lfb.width = fbinfo.xres;
-	lfb.height = fbinfo.yres;
-	lfb.bpp = fbinfo.bits_per_pixel;
+	lfb.width = fb_var_info.xres;
+	lfb.height = fb_var_info.yres;
+	lfb.bpp = fb_var_info.bits_per_pixel;
 	
 	lfb.fillbox = &lfb_fill_box;
 	lfb.drawpolygon = &lfb_draw_polygon;
 	lfb.fillscr = &lfb_fill_scr;
 	lfb.drawline = &lfb_draw_line;
+	lfb.refresh = &lfb_refresh;
 	
 	switch(lfb.bpp){
 		case 8:
@@ -203,6 +207,12 @@ void lfb_set_pixel32(int offset, Color c){
 	if(offset < 0) return;
 	if(offset > lfb.width * lfb.height) return;
 	*(((unsigned int *) scr) + offset) = c;
+}
+
+void lfb_refresh()
+{
+	fb_var_info.activate |= FB_ACTIVATE_NOW | FB_ACTIVATE_FORCE;
+	ioctl(fb, FBIOGET_VSCREENINFO, &fb_var_info);	
 }
 
 void openKB()
