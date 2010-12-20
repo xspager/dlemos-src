@@ -213,6 +213,8 @@ void lfb_set_pixel32(int offset, Color c){
 void lfb_refresh()
 {
 	fb_var_info.activate |= FB_ACTIVATE_NOW | FB_ACTIVATE_FORCE;
+	fb_var_info.yres_virtual = fb_var_info.yres * 2;
+	fb_var_info.yoffset = 1;
 	ioctl(fb, FBIOGET_VSCREENINFO, &fb_var_info);	
 }
 
