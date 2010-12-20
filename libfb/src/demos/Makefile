@@ -1,6 +1,7 @@
 include ../../Makefile.inc
 
-all:	arvre colors fbdemo2 fbed game pattern squares
+all:	arvre colors fbed game pattern squares fbdemo2 
 
-%:	%.c
+%:	%.c ../lib/libfb.o
+	$(ECHO) $(CC) -o $* $*.c -lm $(LIBFB) -ggdb -DDELAY
 	$(CC) -o $* $*.c -lm $(LIBFB) -ggdb -DDELAY
