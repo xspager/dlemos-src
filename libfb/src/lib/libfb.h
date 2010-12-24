@@ -16,6 +16,7 @@
 #include <wchar.h>
 
 
+#if 0
 /* colors 8bpp */
 #define BLACK		0
 #define BLUE		1
@@ -33,7 +34,7 @@
 #define	LIGHT_MAGENTA	13 
 #define YELLOW		14
 #define LIGHT_WHITE	15
-
+#endif
 typedef unsigned char byte;
 
 typedef struct{

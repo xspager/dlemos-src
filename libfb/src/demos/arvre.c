@@ -1,6 +1,7 @@
 #include "../lib/libfb.h"
 #include <stdlib.h>
 
+#define BLACK	0x0
 #define GREEN	0x00FF00
 #define RED	0x0000FF
 #define	CYAN	0x00FFFF

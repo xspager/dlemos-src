@@ -1,17 +1,24 @@
 #include "../lib/libfb.h"
 
+#define STRIP_WIDTH	32
+
 void main()
 {
-	lfb.init();
+	lfb_init();
 	int width = lfb.width;
 	int height = lfb.height;
 	int color, row, col;
-
-	for(color = 0; color <= 15; color++){
-		for(row = 0; row < height ; row++)
-			for(col = 0; col < (width - color * 50); col++)
-				*(src + col + row * width) = color;
-		//usleep(60000);
-		sleep(1);
+while(1){
+	for(color = 0; color < STRIP_WIDTH; color++){
+		lfb.fillbox(0,0,width - ((width / STRIP_WIDTH) * color),height, color * color * 1000000);
+		lfb.refresh();
+		usleep(80000);
 	}
+
+	for(color = 0; color < STRIP_WIDTH; color++){
+		lfb.fillbox(0,0,width, height - ((height / STRIP_WIDTH) * color), color * color * 1000000);
+		lfb.refresh();
+		usleep(80000);
+	}
+}
 }

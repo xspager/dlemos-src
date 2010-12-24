@@ -7,11 +7,10 @@ int main()
 
 	lfb_init();
 	w = lfb.width; h = lfb.height;
-	w = 1000; h = 600;
 
-	for(i = 15; i >= 0; i--){
-		lfb.fillbox(x, y, w, h, i);
-		x += 25; y += 20;
+	for(i = 35; i >= 0; i--){
+		lfb.fillbox(x, y, w, h, i*i*1000000);
+		x += 10; y += 10;
 		w = lfb.width - (x + x); h = lfb.height - (y + y);
 	}
 	
