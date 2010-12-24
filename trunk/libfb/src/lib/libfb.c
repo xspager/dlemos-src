@@ -21,7 +21,12 @@ struct fb_fix_screeninfo fb_fix_info;
 void lfb_init()
 {	
 	fb = open("/dev/fb0", O_RDWR);
-	if(!fb) lfb_exit_error("Can`t open /dev/fb0\n");
+	if(!fb){
+		lfb_exit_error("Can`t open /dev/fb0\n");
+		fb = open("/dev/graphics/fb0", O_RDWR);
+		if(!fb)
+			lfb_exit_error("Can`t open /dev/fb0\n");
+	}
 	
 	ioctl(fb, FBIOGET_VSCREENINFO, &fb_var_info);
 	ioctl(fb, FBIOGET_FSCREENINFO, &fb_fix_info);
@@ -214,7 +219,7 @@ void lfb_refresh()
 {
 	fb_var_info.activate |= FB_ACTIVATE_NOW | FB_ACTIVATE_FORCE;
 	fb_var_info.yres_virtual = fb_var_info.yres * 2;
-	fb_var_info.yoffset = 1;
+	fb_var_info.yoffset = fb_var_info.yres;
 	ioctl(fb, FBIOGET_VSCREENINFO, &fb_var_info);	
 }
 
