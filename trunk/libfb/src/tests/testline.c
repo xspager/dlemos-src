@@ -1,5 +1,6 @@
 #include "../lib/libfb.h"
 
+#define BLACK	0x0
 #define BLUE	0xFF
 #define RED		0x0000FF
 #define GRAY	0x888888
