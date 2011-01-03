@@ -21,11 +21,11 @@ struct fb_fix_screeninfo fb_fix_info;
 void lfb_init()
 {	
 	fb = open("/dev/fb0", O_RDWR);
-	if(!fb){
-		lfb_exit_error("Can`t open /dev/fb0\n");
+	if(fb < 0){
+		printf("Can`t open /dev/fb0\n");
 		fb = open("/dev/graphics/fb0", O_RDWR);
-		if(!fb)
-			lfb_exit_error("Can`t open /dev/fb0\n");
+		if(fb < 0)
+			lfb_exit_error("Can`t open /dev/graphics/fb0\n");
 	}
 	
 	ioctl(fb, FBIOGET_VSCREENINFO, &fb_var_info);
