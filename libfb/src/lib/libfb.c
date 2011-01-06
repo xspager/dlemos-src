@@ -137,7 +137,7 @@ void lfb_draw_line(Point a, Point b, int w, Color color)
 				else{
 	//				printf("b.y < a.y\n");
 					y = b.y;
-					yl = a.x;
+					yl = a.y;
 					x = b.x;
 					i = ((a.x - x) < 0) ? -1 : 1;
 				}
