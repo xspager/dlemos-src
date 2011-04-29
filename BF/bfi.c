@@ -11,7 +11,7 @@ typedef unsigned char byte;
 typedef unsigned int u__int;
 
 byte *loadfile(char *name);
-byte *alloc_mem(u__int size);
+static byte *alloc_mem(u__int size);
 void quitHandler(int sig);
 
 int main(int argc, char *argv[])
@@ -82,8 +82,7 @@ int main(int argc, char *argv[])
 								case ']': i--; break;
 							}
 					else{
-						stack_l++;
-						stack[stack_l]=p;
+						stack[++stack_l]=p;
 					}
 					break;
 				case ']':

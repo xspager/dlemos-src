@@ -2,8 +2,8 @@ CC=gcc
 #CC=agcc
 #CC=cc
 #CC=i586-mingw32msvc-cc
-#CFLAGS:=-w -O3 -pedantic
-CFLAGS=-w -ggdb
+CFLAGS:=-w -O3 -pedantic
+#CFLAGS=-w -ggdb
 #CFLAGS:=-w -S
 
 all:	bfi bfvm brainchange
