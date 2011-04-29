@@ -3,7 +3,7 @@
 */
 #include "lib_easy/easy.h"
 
-#define MEM_SIZE 65534
+#define MEM_SIZE 165534
 
 #define MACRO_VARS int MACRO_i = 0;\
 		int v = 0;
