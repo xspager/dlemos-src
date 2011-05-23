@@ -23,7 +23,7 @@ void lfb_init()
 {	
 	fb = open("/dev/fb0", O_RDWR);
 	if(fb < 0){
-		printf("Can`t open /dev/fb0\n");
+		//printf("Can`t open /dev/fb0\n");
 		fb = open("/dev/graphics/fb0", O_RDWR);
 		if(fb < 0)
 			lfb_exit_error("Can`t open /dev/graphics/fb0\n");
